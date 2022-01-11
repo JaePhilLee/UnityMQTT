@@ -1,8 +1,11 @@
 1. Unity Project File > Assets > Plugins 등 원하는 위치에 M2Mqtt.Net.dll파일 Drag&Drop
-2. 스크립트 작성
+
+2. Edit > Project Setting > Player > Other Settings > Api COmpatibility Level : .NET 4.x로 변경
+
+3. 스크립트 작성
   1) mqtt.cs 참조
   2) 단, TLS로 적용하고자 한다면 아래 과정 요함
     - 인증서(Certificate)
     - Broker Port 8883으로 변경
 
-3. GameObject > Create Empty를 통해 Dummy 객체 생성 후, mqtt.cs 붙여넣기
+4. GameObject > Create Empty를 통해 Dummy 객체 생성 후, mqtt.cs 붙여넣기
