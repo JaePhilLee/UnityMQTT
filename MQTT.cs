@@ -24,7 +24,7 @@ public class MQTT : MonoBehaviour
     public TextAsset certificate;
 
     // 모든 토픽 구독 : #
-    static string subTopic = "23800";
+    static string subTopic = "topic";
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +35,7 @@ public class MQTT : MonoBehaviour
 
 			Connect();
 
-			client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
+			client.MqttMsgPublishReceived += ReceivedCallback;
 
             /*
             QOS Level
@@ -60,6 +60,8 @@ public class MQTT : MonoBehaviour
     private void Connect()
 	{
 		Debug.Log("about to connect on '" + brokerHostname + "'");
+
+        // 인증서 유/무로 TLS인지 아닌지 확인.
         if ( certificate ) {
             X509Certificate cert = new X509Certificate();
             cert.Import(certificate.bytes);
@@ -68,8 +70,10 @@ public class MQTT : MonoBehaviour
         } else {
             client = new MqttClient(brokerHostname);
         }
+
         try
 		{
+            //MAC Address로 clientID 할당
 		    string clientId = NetworkInterface.GetAllNetworkInterfaces()[0].GetPhysicalAddress().ToString();
 		    Debug.Log("About to connect using '" + userName + "' / '" + password + "' [" + clientId + "]");
 
@@ -81,21 +85,30 @@ public class MQTT : MonoBehaviour
 		}
 	}
 
+    //모든 인증서 허용
     public static bool MyRemoteCertificateValidationCallback(System.Object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
 	{
 		return true;
 	}
 
-    void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+    // 구독(Subscribe)한 토픽(들)에게서 메세지를 수신했을 때, 실행되는 콜백함수
+    void ReceivedCallback(object sender, MqttMsgPublishEventArgs e)
 	{
 		string msg = System.Text.Encoding.UTF8.GetString(e.Message);
         Debug.Log ("Received message from " + e.Topic + " : " + msg);
 	}
 
+    // 지정된 토픽(_topic)에 메세지(msg)를 발행(Publish)
     private void Publish(string _topic, string msg)
 	{
 		client.Publish(
 			_topic, System.Text.Encoding.UTF8.GetBytes(msg),
 			MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
+	}
+
+    private void Publish(string _topic, string msg, byte qos)
+	{
+		client.Publish(
+			_topic, System.Text.Encoding.UTF8.GetBytes(msg), qos, false);
 	}
 }
