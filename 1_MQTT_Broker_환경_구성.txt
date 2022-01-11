@@ -1,0 +1,57 @@
+* 이미 MQTT Broker환경이 구성되어 있다면 넘어가도 무관.
+
+# MQTT Broker 설치
+1. Windows 환경에 MQTT Broker환경 구성을 위해 mosquitto 설치
+(https://mosquitto.org/download/)
+
+2. 서비스 > Mosquitto Broker를 시작(S) 상태로 변경
+
+
+
+
+
+# 테스트 1) Command Line을 이용한 MQTT Broker 테스트
+1. 환경 변수 추가
+  1) 컴퓨터 속성 > 고급 > 환경 변수 > 시스템 변수 탭 Path에 행 추가
+  2) mosquitto 설치 경로 추가 후 확인 (C:\Program Files\mosquitto)
+
+2. 커맨드 창 2개 실행
+
+3) topic이름의 토픽에 구독(subscribe)
+  1) {커맨드 창 1} mosquitto_sub -t "topic"
+
+4) topic이름의 토픽에 발행(publish)
+  1) {커맨드 창 2} mosquitto_pub -t "topic" -m Hello
+
+5) {커맨드창 1}에 Hello가 출력되는지 확인
+ 
+
+
+
+
+# 테스트 2) MQTT Box를 이용한 MQTT Broker 테스트
+1. 환경 변수 추가
+  1) 컴퓨터 속성 > 고급 > 환경 변수 > 시스템 변수 탭 Path에 행 추가
+  2) mosquitto 설치 경로 추가 후 확인 (C:\Program Files\mosquitto)
+
+2. 커맨드 창 실행 후 "topic" 구독(Subscribe)
+  1) mosquitto_sub -t "topic"
+
+3. Chrome 실행
+
+4. Google에 MQTTBox 검색 후 Chrome Apps에 추가
+
+5. Chrome에 Chrome://apps로 접속 후 MQTTBox 실행
+
+6. [Create New Client] 클릭
+  1) MQTT Client Name : {Name}
+  2) Protocol : mqtt/tcp
+  3) Host : 127.0.0.1:1883  (Protocol이 ssl인 경우 8883)
+  4) Will - Topic : Topic
+
+7. 만든 MQTT Client 접속
+
+8. 발행(Publish) 테스트
+  1) Topic to publish : topic
+  2) Payload : Hello
+  3) [Publish] 버튼 클릭
