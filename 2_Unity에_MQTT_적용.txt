@@ -1,4 +1,4 @@
-1. Unity Project File > Assets > Plugins 등 원하는 위치에 M2Mqtt.Net.dll파일 Drag&Drop
+1. Import Nuget Unity Package
 
 2. Edit > Nuget : MQTTNet, MQTTNet Extensions ManageClient 설치
 
