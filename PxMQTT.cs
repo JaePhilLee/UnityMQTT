@@ -1,6 +1,10 @@
 /*
     [2022-04-20] 이재필
     MQTT 사용 예제로서, Editor, Android, iOS 테스트 완료
+    
+    # Example Code
+    // PxMQTT.Connect("broker.emqx.io", 1883, "User", "1234");
+    // PxMQTT.Publish("topic", "Hello World");
 */
 
 using System.Collections;
